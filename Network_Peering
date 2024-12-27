@@ -1,0 +1,77 @@
+To complete this task, you'll need to perform the following steps:
+
+### 1. **Create Two Virtual Networks (VNets)**
+
+#### Step-by-Step:
+1. **Log in to Azure Portal**: Go to the [Azure Portal](https://portal.azure.com/).
+
+2. **Create Virtual Network 1 (VNet1)**:
+   - In the Azure portal, search for **Virtual Network** and select **Create**.
+   - Fill in the details:
+     - **Subscription**: Choose your subscription.
+     - **Resource Group**: Create a new or select an existing one.
+     - **Name**: Choose a name for the VNet (e.g., `VNet1`).
+     - **Region**: Choose the region (ensure it's the same as your VM region).
+     - **Address space**: Provide an address range, e.g., `10.1.0.0/16`.
+     - Under **Subnets**, add a subnet, e.g., `Subnet1` with a range like `10.1.1.0/24`.
+   - Click **Review + Create** and then **Create**.
+
+3. **Create Virtual Network 2 (VNet2)**:
+   - Follow the same steps as above, but with a different name and IP range, for example:
+     - **Name**: `VNet2`
+     - **Address space**: `10.2.0.0/16`
+     - **Subnet**: `Subnet2` with a range like `10.2.1.0/24`.
+
+### 2. **Create Two Virtual Machines (VMs)**
+
+#### Step-by-Step:
+1. **Create VM 1 in VNet1**:
+   - In the Azure portal, search for **Virtual Machine** and select **Create**.
+   - Fill in the details for VM 1:
+     - **Subscription** and **Resource Group**: Select the same resource group.
+     - **Name**: Give your VM a name (e.g., `VM1`).
+     - **Region**: Same region as `VNet1`.
+     - **Image**: Choose an image (e.g., Ubuntu or Windows Server).
+     - **Size**: Choose an appropriate size (e.g., B1s for testing).
+     - **Authentication type**: Select SSH (for Linux) or Password (for Windows).
+     - **Virtual Network**: Select `VNet1` and subnet `Subnet1`.
+   - Once completed, click **Review + Create** and then **Create**.
+
+2. **Create VM 2 in VNet2**:
+   - Repeat the same process for VM 2, but choose `VNet2` and `Subnet2` for the network and subnet.
+
+### 3. **Set Up Peering Between the Two VNets**
+
+#### Step-by-Step:
+1. **Go to Virtual Network Peering**:
+   - Go to **VNet1** in the Azure portal.
+   - Under **Settings**, select **Peerings** and click **+ Add**.
+   
+2. **Configure Peering for VNet1 to VNet2**:
+   - **Name**: Provide a name for the peering, e.g., `VNet1-to-VNet2`.
+   - **Virtual network**: Select `VNet2`.
+   - **Peering link name**: Use a descriptive name (e.g., `VNet1-to-VNet2`).
+   - **Traffic settings**: Set the following:
+     - Allow **Virtual network access**.
+     - Allow **Forward traffic** and **Traffic forwarding** if needed.
+   - Click **OK** to create the peering.
+
+3. **Create Peering from VNet2 to VNet1**:
+   - Now, go to **VNet2** and under **Settings**, select **Peerings** and click **+ Add**.
+   - This time, choose `VNet1` as the virtual network and configure the same options.
+   
+4. **Check the Peering Status**:
+   - After setting up the peering, the status should show **Connected** for both networks.
+
+### 4. **Test Connectivity**
+
+Once the peering is done, you can test the connection between the VMs:
+- **Login to VM1** and try to ping the private IP address of **VM2**.
+- Similarly, log into **VM2** and ping **VM1**'s private IP.
+
+### Notes:
+- Ensure both VNets are in the same region for easier peering.
+- Peering only allows traffic between VMs in the connected VNets (you don't need a VPN).
+- You can also configure **Network Security Groups (NSGs)** to control access between the VMs if needed.
+
+Let me know if you need help with any specific part!
