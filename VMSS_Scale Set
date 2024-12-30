@@ -33,3 +33,146 @@ Maximum Instances: The maximum number of instances you want to deploy while scal
 Metric-based – It measures application load and adds or removes VMs based on that load. For example, add an instance in a scale set when CPU usage is above 50%.
 Time-based – For example, trigger an instance every 8 am on Saturday in a given time zone.
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Here’s a **detailed, step-by-step guide** for creating and configuring a **Virtual Machine Scale Set (VMSS)** 
+using the Azure Portal on a free subscription account. Follow these steps to complete the task:
+
+---
+
+## **Step-by-Step Procedure**
+
+---
+
+### **1. Log in to the Azure Portal**
+1. Open your browser and navigate to [Azure Portal](https://portal.azure.com).
+2. Log in using your Azure account credentials (free subscription account).
+
+---
+
+### **2. Create a Resource Group**
+1. In the search bar at the top of the portal, type **Resource groups** and select it from the results.
+2. Click **+ Create**.
+3. Fill in the details:
+   - **Subscription**: Select your free subscription.
+   - **Resource Group Name**: Enter a name like `MyResourceGroup`.
+   - **Region**: Choose a region close to your location (e.g., East US).
+4. Click **Review + Create**, and then click **Create** to create the resource group.
+
+---
+
+### **3. Create a Virtual Machine Scale Set**
+1. In the search bar, type **Virtual Machine Scale Sets** and select it from the results.
+2. Click **+ Create**.
+3. In the **Basics** tab, provide the following details:
+   - **Subscription**: Select your free subscription.
+   - **Resource Group**: Select the one you just created (e.g., `MyResourceGroup`).
+   - **Scale Set Name**: Enter a name like `MyScaleSet`.
+   - **Region**: Select the same region as the resource group.
+   - **Availability Zone**: Leave as default.
+   - **Orchestration Mode**: Keep it as `Uniform`.
+4. **Image**: Choose an operating system like **Ubuntu Server 20.04 LTS - Gen2** (or Windows Server).
+5. **Instance Size**:
+   - Click **Change size**, and select a free-tier eligible VM size like `Standard_B1ls` or `Standard_B1s`.
+6. **Authentication Type**:
+   - For **Linux**: Choose **Password** or **SSH Public Key**.
+   - For **Windows**: Use **Password**.
+   - Enter a **Username** and **Password/SSH Key**.
+7. **Instance Count**: Set it to `2`.
+8. Click **Next: Disks**.
+
+---
+
+### **4. Configure Disks**
+1. Use the default disk settings. The **OS disk** will be a Standard HDD.
+2. Click **Next: Networking**.
+
+---
+
+### **5. Configure Networking**
+1. Ensure a **new Virtual Network** is created automatically.
+2. The **Subnet** is preconfigured.
+3. Under **Load Balancer**, select **Basic** (or choose None for simplicity).
+4. Click **Next: Scaling**.
+
+---
+
+### **6. Configure Scaling**
+1. Keep the **Scaling Policy** as **Manual** for now.
+2. Later, we’ll set auto-scaling rules (see Step 9).
+3. Click **Next: Management**.
+
+---
+
+### **7. Configure Management**
+1. Enable the **Boot Diagnostics** option to troubleshoot if needed.
+2. Leave other options as default.
+3. Click **Next: Advanced**.
+
+---
+
+### **8. Configure Advanced Settings**
+1. Leave defaults unless you need custom scripts or extensions.
+2. Click **Next: Tags**.
+
+---
+
+### **9. Add Tags (Optional)**
+1. Add tags like `Environment=Test` or `Project=VMSS` to identify resources easily.
+2. Click **Review + Create**.
+
+---
+
+### **10. Review and Create**
+1. Review all configurations. Ensure the estimated cost is within the free tier.
+2. Click **Create** to deploy the VMSS.
+
+---
+
+### **11. Configure Auto-Scaling**
+1. Once the VMSS is created, go to the resource by clicking **Go to Resource**.
+2. In the left-hand menu, select **Scaling**.
+3. Click **+ Add a Rule**:
+   - **Metric Source**: Virtual Machine Scale Set.
+   - **Metric Name**: Percentage CPU.
+   - **Condition**: Greater than 75%.
+   - **Action**: Increase the instance count by `1`.
+   - **Cool Down**: 5 minutes.
+4. Add another rule:
+   - **Metric Name**: Percentage CPU.
+   - **Condition**: Less than 30%.
+   - **Action**: Decrease the instance count by `1`.
+   - **Cool Down**: 5 minutes.
+5. Save the scaling rules.
+
+---
+
+### **12. Test Auto-Scaling**
+1. Access one of the VMs in the scale set:
+   - Go to **Instances** under the VMSS.
+   - Select an instance and click **Connect** (via SSH or RDP).
+2. Stress the CPU:
+   - For Linux, install `stress` using:
+     ```bash
+     sudo apt-get update
+     sudo apt-get install stress
+     stress --cpu 8 --timeout 300
+     ```
+   - For Windows, run a CPU-intensive task in PowerShell.
+3. Monitor the **Instances** tab in the VMSS to see if new instances are added.
+
+---
+
+### **13. Clean Up Resources**
+1. Once you’ve completed the task, delete the resource group to avoid charges:
+   - Go to **Resource Groups** in the portal.
+   - Select `MyResourceGroup`.
+   - Click **Delete Resource Group**, type the name to confirm, and delete.
+
+---
+
+### **Deliverables:**
+- Screenshot of your VMSS in the Azure portal.
+- Screenshot of the auto-scaling activity (new instances being created or removed).
+
+Let me know if you encounter any issues or need further assistance! 😊
+
