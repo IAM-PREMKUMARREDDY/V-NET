@@ -1,1 +1,35 @@
+What are Virtual Machine Scale Sets (VMSS)?
+Virtual Machine Scale Sets (VMSS), an interesting service offered by Microsoft Azure, helps to create and manage a set of identical, auto-scaling Virtual Machines (VMs). 
+The number of VM instances can automatically increase or decrease based on scheduled conditions.
+
+
+Auto-Scaling
+Auto-scaling is a way to automatically scale up or down the number of compute resources that are being 
+allocated to your application based on its needs at any given time.
+
+Here are the most popular ways of auto-scaling:
+
+Horizontal Scaling :
+Vertical Scaling :
+
+Vertical Scaling:
+Vertical Scaling is an attempt to increase or decrease the capacity of a single machine, also called scaling up or down. 
+Here the resources such as processing power, storage, memory, and more are added to an existing work unit.
+
+Horizontal Scaling:
+Horizontal Scaling is a must-use technology – whenever a high availability of (server) services is required, also called scaling out and in, means adding or removing instances of a resource. 
+Scaling horizontally involves adding more processing units or physical machines to your server or database
+
+Scale-out : is the process of adding extra resources, such as virtual machines (VMs)
+Scale-in :  refers to the process of reducing the number of virtual machines (VMs) in the scale set.
+
+Autoscale Settings
+An autoscale setting is read by the autoscale engine to determine whether to scale up or down.
+
+You can create custom autoscaling rules as needed for your situation. Rule types include:
+
+Minimum Instance: The minimum number of instances you want to deploy in your scale set.
+Maximum Instances: The maximum number of instances you want to deploy while scaling out. (Note: In Azure, you can have a maximum, of 1000 instances)
+Metric-based – It measures application load and adds or removes VMs based on that load. For example, add an instance in a scale set when CPU usage is above 50%.
+Time-based – For example, trigger an instance every 8 am on Saturday in a given time zone.
 
